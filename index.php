@@ -17,6 +17,21 @@
 				</label>
 				<input type="password" name="password" placeholder="Password" id="password">
 				<button name='login'>Login</button>
+                
+</form>
+<form action="create.php" method="POST">
+    <label for="username">
+					
+    </label>
+    <input type="text" name="username2" placeholder="Username" id="username2" required>
+    <label for="password">
+                    
+    </label>
+    <input type="password" name="password2" placeholder="Password" id="password2">
+    <input type="password" name="confirm_password" placeholder="Confirm Password"
+    id="confirm_password">
+    <button name="create">Create New User</button>
+</form>
 </body>
 </html>
 
@@ -72,4 +87,9 @@ try {
     {
     echo $error->getMessage();
     }
+
+
+
+
+    
 ?>
