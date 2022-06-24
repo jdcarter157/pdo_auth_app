@@ -44,6 +44,10 @@ $db_password = '';
 $db_name = 'jordanDB';
 $isMessage = false;
 $message = "";
+$password = $_POST['password'];
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+
 if(isset($_POST["login"])) {
 	echo "hello";
 }
@@ -67,7 +71,7 @@ try {
 			$statement->execute(
 				array(
 					'username'=> $_POST["username"],
-					'password'=>$_POST["password"]
+					'password'=>$hashed_password
 				)
 				);
 				$count= $statement->rowCount();

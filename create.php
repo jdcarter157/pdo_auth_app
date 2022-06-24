@@ -7,7 +7,8 @@ $db_password = '';
 $db_name = 'jordanDB';
 $isMessage = false;
 $message = "";
-
+$password = $_POST['password'];
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 
 if(isset($_POST["create"])) {
@@ -34,7 +35,7 @@ try {
 			$statement->execute(
 				array(
 					':username'=> $_POST['username2'],
-					':password'=>$_POST['password2']
+					':password'=>$hashed_password
 				)
 				);
                 echo "mid else statement";
