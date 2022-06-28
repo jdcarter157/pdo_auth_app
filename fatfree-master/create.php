@@ -7,11 +7,11 @@ $db_password = '';
 $db_name = 'jordanDB';
 $isMessage = false;
 $message = "";
-$password = $_POST['password'];
+$password = $_GET['password2'];
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 
-if(isset($_POST["create"])) {
+if(isset($_GET["create"])) {
 	echo "hello oodie: ";
 
 try {
@@ -19,9 +19,9 @@ try {
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	echo 'hello oodie<br>';
-	if(isset($_POST["create"]))
+	if(isset($_GET["create"]))
 	{
-		if(empty($_POST["username2"]) || empty($_POST["password2"]))
+		if(empty($_GET["username2"]) || empty($_GET["password2"]))
 		{
 			$isMessage = true;
 			$message = "Field is blank";
@@ -34,13 +34,13 @@ try {
 			$statement= $conn->prepare($query);
 			$statement->execute(
 				array(
-					':username'=> $_POST['username2'],
+					':username'=> $_GET['username2'],
 					':password'=>$hashed_password
 				)
 				);
                 echo "mid else statement";
 				$count= $statement->rowCount();
-				if($_POST["password2"]==$_POST["confirm_password"])
+				if($_GET["password2"]==$_GET["confirm_password"])
 				{header("location:login.php");}
 				else
 				{$isMessage = true;
