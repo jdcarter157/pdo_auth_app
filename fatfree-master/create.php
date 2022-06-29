@@ -1,4 +1,16 @@
 <?php 
+echo "top of create form";
+if (file_exists('vendor/autoload.php')) {
+	// load via composer
+	require_once('vendor/autoload.php');
+	$f3 = \Base::instance();
+} elseif (!file_exists('lib/base.php')) {
+	die('fatfree-core not found. Run `git submodule init` and `git submodule update` or install via composer with `composer install`.');
+} else {
+	// load via submodule
+	/** @var Base $f3 */
+	$f3=require('lib/base.php');
+}
 session_start();
 // Change this to your connection info.
 $host = 'localhost';
@@ -7,7 +19,10 @@ $db_password = '';
 $db_name = 'jordanDB';
 $isMessage = false;
 $message = "";
-$password = $_GET['password2'];
+// $password = $_GET['password2'];
+// $f3->set('password','GET.password2');
+$password = $f3->get('GET.password2');
+echo $password . '<br><br>';
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 
@@ -46,6 +61,7 @@ try {
 				{$isMessage = true;
 					$message = "passwords do not match";
 				}
+				echo "end else statement";
 		}
 		
 	}
@@ -57,7 +73,7 @@ try {
     }
 }
 
-
+echo View::instance()->render('login.php');
 
 
 
