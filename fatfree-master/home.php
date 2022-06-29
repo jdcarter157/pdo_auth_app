@@ -13,5 +13,5 @@ if (file_exists('vendor/autoload.php')) {
 
 echo "hello word";
 echo "<br> Session ID: ".$f3->get('SESSION.id');
-
+echo "<br><a href='ex.php'>Logout</a>";
 ?>
