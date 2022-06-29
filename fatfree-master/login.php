@@ -28,16 +28,21 @@ if (file_exists('vendor/autoload.php')) {
     $f3->set('db',$db);
     $username = $f3->get('GET.username'); 
     $password = $f3->get('GET.password');
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 
     
        $f3->set("result", $f3->db->exec('select * from user where username=?', [$username]));
-       if (empty($f3->get['result'])) {
+       echo "<br> TEST!!!".$username;
+       var_dump($f3->get('result'));
+       if (empty($f3->get('result'))) {
         echo 'no dice, no matches, nothin';
        } else {
             $success = password_verify($password, $f3->get('result')[0]['password']);
             if ($success) {
                 echo 'successful login';
+                $f3->set('SESSION.id',$f3->get('result')[0]['id']);
+                header('location:home.php');
             } else {
                 echo 'you are bad';
        }

@@ -19,61 +19,26 @@ $db_password = '';
 $db_name = 'jordanDB';
 $isMessage = false;
 $message = "";
-// $password = $_GET['password2'];
-// $f3->set('password','GET.password2');
+
+$db = new DB\SQL("mysql:host=$host;dbname=$db_name;charset=utf8mb4", $user, $db_password);
+
+$f3->set('db',$db);
+$username = $f3->get('GET.username2'); 
 $password = $f3->get('GET.password2');
-echo $password . '<br><br>';
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+$confirm_password= $f3->get('GET.confirm_password');
 
 
-if(isset($_GET["create"])) {
-	echo "hello oodie: ";
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8mb4", $user, $db_password);
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	echo 'hello oodie<br>';
-	if(isset($_GET["create"]))
-	{
-		if(empty($_GET["username2"]) || empty($_GET["password2"]))
-		{
-			$isMessage = true;
-			$message = "Field is blank";
+	if($password==$confirm_password)
+	{	$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-		}
-		else
-		{
-            echo "top else statement";
-			$query="INSERT INTO user (username,password) VALUES(:username, :password)";
-			$statement= $conn->prepare($query);
-			$statement->execute(
-				array(
-					':username'=> $_GET['username2'],
-					':password'=>$hashed_password
-				)
-				);
-                echo "mid else statement";
-				$count= $statement->rowCount();
-				if($_GET["password2"]==$_GET["confirm_password"])
-				{header("location:login.php");}
-				else
-				{$isMessage = true;
-					$message = "passwords do not match";
-				}
-				echo "end else statement";
-		}
-		
-	}
-	}
-    
- catch(PDOException $error)
-    {
-    echo $error->getMessage();
-    }
+		$f3->set("result", $f3->db->exec('INSERT INTO user (username,password) VALUES(?,?)', [$username,$hashed_password]));
+
+		header("location:home.php");
 }
 
-echo View::instance()->render('login.php');
+
+
 
 
 

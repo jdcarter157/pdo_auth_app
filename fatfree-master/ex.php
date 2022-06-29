@@ -59,6 +59,7 @@ $db= new DB\SQL(
     ''
 );
 $f3->set('DB',$db);
+new \DB\SQL\Session($db);
 
 session_start();
 // Change this to your connection info.
