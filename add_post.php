@@ -21,21 +21,18 @@ $db = new DB\SQL("mysql:host=$host;dbname=$db_name;charset=utf8mb4", $user, $db_
 
 $f3->set('db',$db);
 
-$f3->set("result", $f3->db->exec('select * from post where username=?', [$username]));
-       echo "<br> TEST!!!".$username;
-       var_dump($f3->get('result'));
-       if (empty($f3->get('result'))) {
-        echo 'no dice, no matches, nothin';
-       } else {
-            $success = password_verify($password, $f3->get('result')[0]['password']);
-            if ($success) {
-                echo 'successful login';
-                $f3->set('SESSION.id',$f3->get('result')[0]['id']);
-                header('location:home.php');
-            } else {
-                echo 'you are bad';
-       }
-       }
-    
+$feed_text=$f3->get('GET.feed');
+
+    $f3->set("result", $f3->db->exec('INSERT INTO post (content) VALUES(?)', [$feed_text]));
+
+   
+
+
+
 
 ?>
+<form action='add_post.php' method="GET">
+    <label for="feed">New Post</label>
+    <input type="text" id="feed" name="feed" minlength="2"><br><br>
+    <input type="submit" value="Submit">
+</form>
